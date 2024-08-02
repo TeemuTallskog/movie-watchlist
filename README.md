@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+![Movie watchlist](public/icons/logo-128.png)
+# Movie watchlist
+Simple extension, that allows bookmarking movies/series from IMDB listings.  
+<p align="center">
+    <img src="README-resources/search.png" alt="search" width="45%">
+    <img src="README-resources/watchlist.png" alt="watchlist" width="45%">
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+-----
 
-## Available Scripts
+This README provides step-by-step instructions for setting up and building the `imdb-watchlist` React project.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+1. [Prerequisites](#prerequisites)
+2. [Installation](#installation)
+3. [Running the Project](#running-the-project-in-browser)
+4. [How to Build](#how-to-build)
+5. [Add development build as a local temporary extension](#add-development-build-as-a-local-temporary-extension)
+6. [Add development build as a local permanent extension](#add-development-build-as-a-local-permanent-extension)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Ensure you have the following installed on your system:
 
-### `npm test`
+- **Operating System**: Any OS that supports Node.js (Windows, macOS, Linux)
+- **Node.js**: Version 14.0.0 or higher
+- **npm**: Version 6.0.0 or higher (usually comes with Node.js)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Node.js and npm Installation
 
-### `npm run build`
+#### Windows/macOS
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Download the Node.js installer from the [official website](https://nodejs.org/).
+2. Run the installer and follow the instructions.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Linux
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+For Debian-based distributions (like Ubuntu):
 
-### `npm run eject`
+```sh
+sudo apt update
+sudo apt install nodejs npm
+```  
+For other distributions, refer to the official Node.js documentation.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Installation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Follow these steps to set up the project:  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Clone the repository:
+```sh
+git clone https://github.com/TeemuTallskog/movie-watchlist.git
+cd movie-watchlist
+```
+2. Install dependencies:
+```sh
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Running the Project in browser
 
-## Learn More
+To start the development server:
+```sh
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This will run the app in development mode. Open http://localhost:3000 to view it in the browser.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## How to build
+Navigate to project root and run:
+```cmd
+npm run build
+```
+This generates a `build` directory with all necessary resources.  
+All files/directories in the `build` directory need to be compressed into a `.zip` folder.
 
-### Code Splitting
+## Add development build as a local temporary extension
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Enter URL `about:debugging#/runtime/this-firefox`  
+Press `Load Temporary Add-on...` and select `build/manifest.json`
 
-### Analyzing the Bundle Size
+## Add development build as a local permanent extension
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Prerequisites:**
+* If you are using **Firefox Developer Edition** set `xpinstall.signatures.required = "false"` in `about:config`.  
 
-### Making a Progressive Web App
+-------- **OR** ---------
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* Remove the following line from `build/manifest.json`:  
+    ```json
+    "browser_specific_settings": {
+        "gecko": {
+          "id": "movie-watchlist@github.com"
+        }
+      }
+    ```
+<br>  
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Finally:**  
+Compress all files in `build` directory to a `.zip` file.  
+Then navigate to `about:addons` and drag and drop the zip file.

@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import MovieList from './components/MovieList';
+import MovieSearch from './components/MovieSearch';
+import Collapsible from './components/Collapsible';
 
 function App() {
+  const [movies, setMovies] = useState([])
+
+  useEffect(() => {
+    const savedMovies = JSON.parse(localStorage.getItem('Movies')) || [];
+    setMovies(savedMovies);
+  }, []);
+
+  const deleteMovie = (movie) => {
+    const filteredList = movies.filter(item => item.id !== movie.id)
+    localStorage.setItem('Movies', JSON.stringify(filteredList));
+    setMovies(filteredList)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <MovieSearch setMovies={setMovies}/>
+      <Collapsible title="Watchlist">
+        <MovieList movies={movies} deleteMovie={deleteMovie}/>
+      </Collapsible>
     </div>
   );
 }
 
 export default App;
+
