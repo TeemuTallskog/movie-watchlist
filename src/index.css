@@ -1,3 +1,18 @@
+:root {
+  --clr-primary: yellow;
+  --clr-secondary: black;
+  --clr-background: #121212;
+  --clr-background-hover: #323232;
+  --clr-border: rgba(255,255,255,0.7);
+  --clr-btn-background: white;
+  --clr-btn-background-hover: gray;
+  --clr-text-normal: white;
+  --clr-text-light: rgba(255,255,255,0.7);
+  --clr-text-warning: rgb(225,0,0);
+  --clr-scrollbar-background: var(--clr-border);
+  --clr-scrollbar-border: var(--clr-background);
+}
+
 body {
   margin: 0;
   padding-top: 40px;
@@ -9,6 +24,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--clr-background);
 }
 
 code {
@@ -23,7 +39,7 @@ code {
   /* Firefox */
   * {
     scrollbar-width: thin;
-    scrollbar-color: #7a7a7a #ffffff;
+    scrollbar-color: var(--clr-scrollbar-background) var(--clr-scrollbar-border);
   }
 
   /* Chrome, Edge, and Safari */
@@ -32,11 +48,11 @@ code {
   }
 
   *::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: var(--clr-scrollbar-background);
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: #7a7a7a;
+    background-color: var(--clr-scrollbar-background);
     border-radius: 10px;
-    border: 1px none #ffffff;
+    border: 1px none var(--clr-scrollbar-border);
   }

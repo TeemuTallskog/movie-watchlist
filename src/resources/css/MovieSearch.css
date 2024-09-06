@@ -3,13 +3,13 @@
     width: 400px;
     height: 40px;
     border: none;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid var(--clr-border);
     outline: none;
-    background-color: white;
+    background-color: var(--clr-background);
     border-radius: 0px;
     padding-left: 15px;
     letter-spacing: 0.8px;
-    color: rgb(19, 19, 19);
+    color: var(--clr-text-normal);
     font-size: 13.4px;
     position: fixed;
     top: 0;

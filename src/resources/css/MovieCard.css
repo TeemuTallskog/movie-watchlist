@@ -20,7 +20,7 @@
 .movie-card-container-title a {
     font-size: 18px;
     font-weight: bold;
-    color: #000; /* Adjust color as needed */
+    color: var(--clr-text-normal); /* Adjust color as needed */
     text-decoration: none;
     margin-bottom: 5px;
 }
@@ -31,7 +31,7 @@
 
 .movie-card-container-title p {
     font-size: 14px;
-    color: #555; /* Adjust color as needed */
+    color: var(--clr-text-light); /* Adjust color as needed */
     margin: 0;
 }
 
@@ -51,18 +51,18 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: var(--clr-background);
     right: 0;
     margin-right: 35px;
     margin-top: 30px;
     align-items: start;
-    border: 1px solid #555;
+    border: 1px solid var(--clr-border);
 }
 
 .movie-card-menu-container {
     width: 150px;
-    background: white;
-    border: 1px solid #555;
+    background: var(--clr-background);
+    border: 1px solid var(--clr-border);
     border-radius: 5px;
     font-size: small !important;
     z-index: 10;
@@ -79,7 +79,11 @@
 }
 
 .movie-card-menu-container button:hover {
-    text-shadow: 0px 0px 1px black;
-    color: black;
+    text-shadow: 0px 0px 1px var(--clr-text-normal);
+    color: var(--clr-text-normal);
     cursor: pointer;
+}
+
+.movie-card-menu-container .deleteButton {
+    color: var(--clr-text-warning);
 }

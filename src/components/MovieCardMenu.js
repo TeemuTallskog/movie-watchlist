@@ -4,7 +4,7 @@ const MovieCardMenu = ({movie, deleteFunction, deleteType, markAsWatched, wrappe
     return (
         <div className='movie-card-menu-container'>
             {markAsWatched ? <button onClick={() => wrapperFunction(markAsWatched, movie)}>Mark as watched</button> : null}
-            <button onClick={() => wrapperFunction(deleteFunction, movie, deleteType)}>Delete</button>
+            <button className='deleteButton' onClick={() => wrapperFunction(deleteFunction, movie, deleteType)}>Delete</button>
         </div>
     )
 }

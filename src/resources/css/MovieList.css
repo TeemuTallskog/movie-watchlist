@@ -39,14 +39,14 @@ button.sort-button:hover {
     display: flex;
     flex-direction: row;
     position: relative;
-    border-bottom: 1px solid #5555558c;
+    border-bottom: 1px solid var(--clr-border);
 }
 
 .movie-card-list-item button{
-    color: #555;
+    color: var(--clr-text-light);
 }
 
 .movie-card-list-item .unicode:hover {
-    color: black;
-    text-shadow: 0px 0px 2px black;
+    color: var(--clr-text-normal);
+    text-shadow: 0px 0px 2px var(--clr-text-normal);
 }
