@@ -1,13 +1,13 @@
 .movie-card-container {
     display: flex;
     align-items: center;
-    margin: 10px 0;
+    margin: 0;
+    flex-grow: 1;
 }
 
 .movie-card-container img {
     max-height: 50px;
     width: auto;
-    border-radius: 5px;
     margin: 10px 0px 10px 10px
 }
 
@@ -20,7 +20,7 @@
 .movie-card-container-title a {
     font-size: 18px;
     font-weight: bold;
-    color: #000; /* Adjust color as needed */
+    color: var(--clr-text-normal); /* Adjust color as needed */
     text-decoration: none;
     margin-bottom: 5px;
 }
@@ -31,21 +31,56 @@
 
 .movie-card-container-title p {
     font-size: 14px;
-    color: #555; /* Adjust color as needed */
+    color: var(--clr-text-light); /* Adjust color as needed */
     margin: 0;
 }
 
-.movie-card-container button {
+.movie-card-container .unicode {
     background-color: transparent;
     border: none;
-    font-weight: lighter;
+    font-size: x-large;
     margin-right: 15px;
     margin-left: auto;
-
 }
 
 .movie-card-container button:hover {
     cursor: pointer;
-    background-color: gray;
+}
+
+.movie-card-menu-container {
+    position: absolute;
+    right: 0;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    width: 150px;
+    margin-right: 35px;
+    margin-top: 30px;
+
+    background-color: var(--clr-background-lighter);
     border-radius: 5px;
+
+    font-size: small !important;
+}
+
+.movie-card-menu-container button {
+    background: transparent;
+    border: none;
+    padding: 10px;
+    z-index: 11;
+    width: 100%;
+    text-align: start;
+}
+
+.movie-card-menu-container button:hover {
+    text-shadow: 0px 0px 1px var(--clr-text-normal);
+    color: var(--clr-text-normal);
+    cursor: pointer;
+}
+
+.movie-card-menu-container .deleteButton {
+    color: var(--clr-text-warning);
 }

@@ -1,7 +1,25 @@
+:root {
+  --clr-primary: rgb(222,181,34);
+  --clr-secondary: black;
+  --clr-background: #121212;
+  --clr-background-lighter: #222222;
+  --clr-background-hover: #323232;
+  --clr-border: rgb(179,179,179);
+  --clr-btn-background: white;
+  --clr-btn-background-hover: gray;
+  --clr-text-normal: white;
+  --clr-text-light: rgba(255,255,255,0.7);
+  --clr-text-warning: rgb(225,0,0);
+  --clr-scrollbar-background: var(--clr-border);
+  --clr-scrollbar-border: transparent;
+}
+
 body {
   margin: 0;
-  padding-top: 40px;
+  padding-top: 50px;
   min-width: 400px;
+  max-width: 400px;
+  max-height: 600px;
   overflow-x: hidden;
   overflow-y: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -9,6 +27,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--clr-background);
+}
+
+.watchlist-content {
+  overflow-y: scroll;
+  max-height: 550px;
 }
 
 code {
@@ -20,23 +44,20 @@ code {
   display: none;
 }
 
-  /* Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #7a7a7a #ffffff;
-  }
-
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 16px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: #ffffff;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: #7a7a7a;
-    border-radius: 10px;
-    border: 1px none #ffffff;
-  }
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-scrollbar-background) var(--clr-scrollbar-border);
+}
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 16px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--clr-scrollbar-background);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--clr-scrollbar-background);
+  border-radius: 10px;
+  border: 1px none var(--clr-scrollbar-border);
+}

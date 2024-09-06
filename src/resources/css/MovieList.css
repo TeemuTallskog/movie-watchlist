@@ -1,6 +1,8 @@
 ul {
     margin-right: 10px;
-    margin-left: 10px;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
     list-style: none;
     padding-left: 0px;
     max-width: 400px;
@@ -8,16 +10,43 @@ ul {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
 li {
-    border-radius: 10px;
-    margin-bottom: 10px;
     margin-right: 10px;
-}
-li :hover{
-    border-radius: 10px;
-    background-color: rgb(199, 199, 199);
 }
 
 .search-result-container li :hover{
     cursor: pointer;
+    background-color: var(--clr-background-hover);
+}
+
+.sort-button {
+    background: none;
+    border: none;
+}
+
+button.sort-button:hover {
+    cursor: pointer;
+}
+
+.sort-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.movie-card-list-item {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.movie-card-list-item button{
+    color: var(--clr-text-light);
+}
+
+.movie-card-list-item .unicode:hover {
+    color: var(--clr-text-normal);
+    text-shadow: 0px 0px 2px var(--clr-text-normal);
 }
