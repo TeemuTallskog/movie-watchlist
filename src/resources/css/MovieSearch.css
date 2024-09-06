@@ -6,7 +6,7 @@
     border: none;
     outline: none;
     background-color: var(--clr-background);
-    border-bottom: 1px solid var(--clr-border);
+    border-bottom: 4px solid var(--clr-border);
     border-radius: 0px;
     letter-spacing: 0.8px;
     color: var(--clr-text-normal);
@@ -25,11 +25,12 @@
   padding: 15px 20px 15px 15px;
   top: 0;
   z-index: 11;
-  border-bottom: 1px solid var(--clr-border);
+  border-bottom: 4px solid var(--clr-border);
+  background-color: var(--clr-background);
 }
 
 
 .InputContainer {
   max-width: 400px;
-  border-bottom: 1px solid var(--clr-border);
+  border-bottom: 4px solid var(--clr-border);
 }

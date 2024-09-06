@@ -11,6 +11,8 @@
   user-select: none;
   margin-bottom: 10px;
   color: var(--clr-text-normal);
+ 
+  padding-bottom: 10px;
 }
 
 .collapsible-header :hover{
@@ -18,16 +20,24 @@
 }
 
 .arrow {
-  margin-right: 15px;
-  margin-left: 15px;
-  transition: transform 0.3s;
-  font-weight: 500;
-}
-
-.arrow.open {
-  transform: rotate(90deg);
+  margin-right: 10px;
+  margin-left: 10px;
+  min-width: 20px;
+  max-width: 20px;
+  font-size: large;
+  text-align: center;
 }
 
 .collapsible-content {
   padding: 0 10px;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.collapsible-content > div {
+  overflow: visible;
+}
+
+.collapsible-content .movie-card-list-ul {
+  overflow: visible;
 }

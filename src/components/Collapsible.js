@@ -9,7 +9,7 @@ const Collapsible = ({ title, children, open }) => {
   return (
     <div className="collapsible">
       <div className="collapsible-header" onClick={toggleOpen}>
-        <span className={`arrow ${isOpen ? 'open' : ''}`}>{'>'}</span>
+        <span className={`arrow ${isOpen ? 'open' : ''}`}>{isOpen ? '-' : '+'}</span>
         <span className="title">{title}</span>
       </div>
       {isOpen && <div className="collapsible-content">{children}</div>}

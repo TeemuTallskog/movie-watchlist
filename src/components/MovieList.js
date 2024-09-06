@@ -12,7 +12,7 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, shiftPosi
 
   return (
     <div className={containerClass}>
-      <ul>
+      <ul className='movie-card-list-ul'>
         {movies.map(( movie, index ) => (
           <li className='movie-card-list-item' key={movie.id} onClick={ itemOnClick ? () => itemOnClick(movie) : () => {}}>
             {movieType === "Movies" ? <div className='sort-button-container'>

@@ -18,7 +18,7 @@ body {
   padding-top: 50px;
   min-width: 400px;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: scroll;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -36,23 +36,20 @@ code {
   display: none;
 }
 
-  /* Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--clr-scrollbar-background) var(--clr-scrollbar-border);
-  }
-
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 16px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: var(--clr-scrollbar-background);
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--clr-scrollbar-background);
-    border-radius: 10px;
-    border: 1px none var(--clr-scrollbar-border);
-  }
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-scrollbar-background) var(--clr-scrollbar-border);
+}
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 16px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--clr-scrollbar-background);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--clr-scrollbar-background);
+  border-radius: 10px;
+  border: 1px none var(--clr-scrollbar-border);
+}
