@@ -17,6 +17,7 @@ li {
 
 .search-result-container li :hover{
     cursor: pointer;
+    background-color: var(--clr-background-hover);
 }
 
 .sort-button {

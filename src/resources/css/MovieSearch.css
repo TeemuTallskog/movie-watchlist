@@ -1,17 +1,35 @@
 
 .search-field{
-    width: 400px;
-    height: 40px;
+    max-width: 345px;
+    width: 345px;
+    height: 50px;
     border: none;
-    border-bottom: 1px solid var(--clr-border);
     outline: none;
     background-color: var(--clr-background);
+    border-bottom: 1px solid var(--clr-border);
     border-radius: 0px;
-    padding-left: 15px;
     letter-spacing: 0.8px;
     color: var(--clr-text-normal);
     font-size: 13.4px;
     position: fixed;
     top: 0;
+    margin-left: 55px;
     z-index: 10;
-  }
+    padding: 0;
+}
+
+#logo{
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  padding: 15px 20px 15px 15px;
+  top: 0;
+  z-index: 11;
+  border-bottom: 1px solid var(--clr-border);
+}
+
+
+.InputContainer {
+  max-width: 400px;
+  border-bottom: 1px solid var(--clr-border);
+}

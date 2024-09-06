@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import MovieList from "./MovieList";
 import "../resources/css/MovieSearch.css"
+import Logo from "../resources/icons/logo.svg"
 
 const MovieSearch = ({setMovies}) => {
     const [search, setSearch ] = useState('')
@@ -59,6 +60,7 @@ const MovieSearch = ({setMovies}) => {
 
     return (
         <div ref={textAreaRef} className="InputContainer">
+            <img src={Logo} alt="logo" id="logo"></img>
             <input 
                 className="search-field"
                 type="text"
@@ -66,7 +68,7 @@ const MovieSearch = ({setMovies}) => {
                 value={search}
                 onChange={onChange}
                 autoComplete="off"
-                placeholder="Search movies to add..."d
+                placeholder="Search movies to add..."
             />
             <div className={isOpen ? "" : 'hide-dropdown'}><MovieList movies={options} containerClass="search-result-container" itemOnClick={saveMovie}/></div>
         </div>

@@ -3,7 +3,7 @@
   --clr-secondary: black;
   --clr-background: #121212;
   --clr-background-hover: #323232;
-  --clr-border: rgba(255,255,255,0.7);
+  --clr-border: rgb(179,179,179);
   --clr-btn-background: white;
   --clr-btn-background-hover: gray;
   --clr-text-normal: white;
@@ -15,7 +15,7 @@
 
 body {
   margin: 0;
-  padding-top: 40px;
+  padding-top: 50px;
   min-width: 400px;
   overflow-x: hidden;
   overflow-y: hidden;
