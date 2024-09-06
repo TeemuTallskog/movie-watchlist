@@ -8,7 +8,7 @@ Simple extension, that allows bookmarking movies/series from IMDB listings.
 
 -----
 
-This README provides step-by-step instructions for setting up and building the `imdb-watchlist` React project.
+This README provides step-by-step instructions for setting up and building the `movie-watchlist` React project.
 
 ## Table of Contents
 
