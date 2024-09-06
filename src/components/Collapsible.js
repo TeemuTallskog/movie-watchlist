@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import '../resources/css/Collapsible.css';
 
-const Collapsible = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(true);
+const Collapsible = ({ title, children, open }) => {
+  const [isOpen, setIsOpen] = useState(open);
 
   const toggleOpen = () => setIsOpen(prevState => !prevState);
 

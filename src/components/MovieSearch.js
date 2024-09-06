@@ -50,7 +50,7 @@ const MovieSearch = ({setMovies}) => {
 
     const saveMovie = (item) => {
             let savedMovies = JSON.parse(localStorage.getItem('Movies')) || [];
-            savedMovies.push(item);
+            savedMovies.unshift(item);
             localStorage.setItem('Movies', JSON.stringify(savedMovies));
             setMovies(savedMovies)
             setSearch('')
