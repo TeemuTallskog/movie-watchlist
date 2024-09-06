@@ -1,5 +1,7 @@
 ![Movie watchlist](public/icons/logo-128.png)
-# Movie watchlist
+# Movie watchlist 
+<a href="https://addons.mozilla.org/en-US/firefox/addon/movie-watchlist/"><img src="README-resources/get-the-addon-small.webp" alt="Get the Add-on"></a>
+
 Simple extension, that allows bookmarking movies/series from IMDB listings.  
 <p align="center">
     <img src="README-resources/search.png" alt="search" width="45%">
