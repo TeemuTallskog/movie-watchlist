@@ -40,7 +40,6 @@ button.sort-button:hover {
     display: flex;
     flex-direction: row;
     position: relative;
-    border-bottom: 1px solid var(--clr-border);
 }
 
 .movie-card-list-item button{

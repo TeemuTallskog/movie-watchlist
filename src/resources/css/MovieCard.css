@@ -49,23 +49,21 @@
 
 .movie-card-menu-container {
     position: absolute;
+    right: 0;
+    z-index: 10;
+
     display: flex;
     flex-direction: column;
-    background-color: var(--clr-background);
-    right: 0;
+    align-items: start;
+
+    width: 150px;
     margin-right: 35px;
     margin-top: 30px;
-    align-items: start;
-    border: 1px solid var(--clr-border);
-}
 
-.movie-card-menu-container {
-    width: 150px;
-    background: var(--clr-background);
-    border: 1px solid var(--clr-border);
+    background-color: var(--clr-background-lighter);
     border-radius: 5px;
+
     font-size: small !important;
-    z-index: 10;
 }
 
 .movie-card-menu-container button {

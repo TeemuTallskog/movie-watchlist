@@ -1,7 +1,8 @@
 :root {
-  --clr-primary: yellow;
+  --clr-primary: rgb(222,181,34);
   --clr-secondary: black;
   --clr-background: #121212;
+  --clr-background-lighter: #222222;
   --clr-background-hover: #323232;
   --clr-border: rgb(179,179,179);
   --clr-btn-background: white;

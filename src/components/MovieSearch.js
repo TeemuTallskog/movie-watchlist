@@ -59,7 +59,8 @@ const MovieSearch = ({setMovies}) => {
     }
 
     return (
-        <div ref={textAreaRef} className="InputContainer">
+        <div ref={textAreaRef} className="search-container">
+            <div className={`input-container ${isOpen ? 'focused' : ''}`}>
             <img src={Logo} alt="logo" id="logo"></img>
             <input 
                 className="search-field"
@@ -70,6 +71,7 @@ const MovieSearch = ({setMovies}) => {
                 autoComplete="off"
                 placeholder="Search movies to add..."
             />
+            </div>
             <div className={isOpen ? "" : 'hide-dropdown'}><MovieList movies={options} containerClass="search-result-container" itemOnClick={saveMovie}/></div>
         </div>
     )

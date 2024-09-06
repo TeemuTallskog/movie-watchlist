@@ -58,10 +58,10 @@ function App() {
   return (
     <div className="App">
       <MovieSearch setMovies={setMovies}/>
-      <Collapsible title="Watchlist" open={true} >
+      <Collapsible title="Watchlist" open={true} itemCount={movies.length}>
         <MovieList movies={movies} deleteMovie={deleteMovie} movieType="Movies" shiftPosition={shiftMovieIndex} markAsWatched={markAsWatched}/>
       </Collapsible>
-      <Collapsible title="Watched" open={false}>
+      <Collapsible title="Watched" open={false} itemCount={watchedMovies.length}>
         <MovieList movies={watchedMovies} deleteMovie={deleteMovie} movieType="Watched Movies"/>
       </Collapsible>
     </div>

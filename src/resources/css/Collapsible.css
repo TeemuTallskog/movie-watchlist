@@ -11,8 +11,12 @@
   user-select: none;
   margin-bottom: 10px;
   color: var(--clr-text-normal);
- 
-  padding-bottom: 10px;
+}
+
+.collapsible-header .title-count{
+  color: var(--clr-text-light);
+  font-size: small;
+  margin-left: 10px;
 }
 
 .collapsible-header :hover{
