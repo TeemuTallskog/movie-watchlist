@@ -44,10 +44,17 @@ const MovieSearch = ({setMovies}) => {
         setTimeoutId(newTimeoutId);
     }
 
-    useEffect(() => window.addEventListener('click', ev => {
-        if(textAreaRef.current && textAreaRef.current.contains(ev.target)) {setIsOpen(!isOpen)}
-        else {setIsOpen(false)}
-    }));
+    useEffect(() => {
+        const handleClick = (ev) => {
+            if (textAreaRef.current && textAreaRef.current.contains(ev.target)) {
+                setIsOpen(prev => !prev)
+            } else {
+                setIsOpen(false)
+            }
+        }
+        window.addEventListener('click', handleClick)
+        return () => window.removeEventListener('click', handleClick)
+    }, []);
 
     const saveMovie = (item) => {
             let savedMovies = JSON.parse(localStorage.getItem('Movies')) || [];
