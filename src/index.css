@@ -16,20 +16,20 @@
   --clr-background-hover: #323232;
   --clr-border-subtle: #666666;
 
-  /* List surfaces: neutral for search, warm for the watchlist, cool for watched. */
+  /* List surfaces: neutral for search, warm for the watchlist, cool for the archive. */
   --clr-surface-search: #222222;
   --clr-surface-watchlist: #201c11;
-  --clr-surface-watched: #16211b;
+  --clr-surface-watched: #161b22;
   --clr-surface-hover-watchlist: #2d2614;
-  --clr-surface-hover-watched: #1e2c24;
+  --clr-surface-hover-watched: #212c3a;
 
   /* List accents */
-  --clr-accent-watched: #86a98f;
+  --clr-accent-watched: #6f8ca8;
   --clr-border-search: #4d4d4d;
   --clr-border-watchlist: rgba(222, 181, 34, 0.38);
-  --clr-border-watched: rgba(134, 169, 143, 0.35);
+  --clr-border-watched: rgba(111, 140, 168, 0.35);
   --clr-header-watchlist: rgba(222, 181, 34, 0.14);
-  --clr-header-watched: rgba(134, 169, 143, 0.14);
+  --clr-header-watched: rgba(111, 140, 168, 0.14);
 
   /* Text */
   --clr-text-normal: #ffffff;
@@ -73,8 +73,6 @@ body {
 .watchlist-content {
   overflow-y: auto;
   max-height: 550px;
-  /* Keep the list scrollbars 6px away from the window scrollbar. */
-  padding-right: 6px;
 }
 
 code {

@@ -1,7 +1,29 @@
 .collapsible {
-    margin: 12px 10px;
+    position: relative;
+    margin: 12px 0 12px 10px;
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 8px 0 0 8px;
+}
+
+/*
+ * Fade the panel's own background and border into the window background
+ * towards the right edge. The overlay sits above the panel box but below
+ * its content, so text and rows never wash out.
+ */
+.collapsible::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, transparent 55%, var(--clr-background) 92%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.collapsible-header,
+.collapsible-content {
+    position: relative;
+    z-index: 1;
 }
 
 /* Warm panel for active bookmarks, cool panel for the archive. */
@@ -24,13 +46,13 @@
   font-weight: bold;
   user-select: none;
   padding: 8px 10px;
-  border-radius: 7px 7px 0 0;
+  border-radius: 7px 0 0 0;
   color: var(--clr-text-normal);
 }
 
-/* Collapsed panels have no content below the header, so round every corner. */
+/* Flushed to the window edge on the right, so only left corners round. */
 .collapsible-header--closed {
-  border-radius: 7px;
+  border-radius: 7px 0 0 7px;
 }
 
 .collapsible-header:hover {
@@ -50,7 +72,7 @@
 }
 
 .collapsible--watched .collapsible-header:hover {
-  background-color: rgba(134, 169, 143, 0.22);
+  background-color: rgba(111, 140, 168, 0.22);
 }
 
 .collapsible-header:hover .title-count {
@@ -84,8 +106,8 @@
 
 .collapsible--watched .collapsible-header .title-count {
   color: var(--clr-text-normal);
-  background-color: rgba(134, 169, 143, 0.18);
-  border-color: rgba(134, 169, 143, 0.4);
+  background-color: rgba(111, 140, 168, 0.18);
+  border-color: rgba(111, 140, 168, 0.4);
 }
 
 .arrow {
