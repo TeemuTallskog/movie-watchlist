@@ -29,6 +29,35 @@
     background-color: var(--clr-background-hover);
 }
 
+/*
+ * Search results adopt the hue of the list they are already in. The uniform
+ * transparent border keeps tinted and neutral rows from shifting horizontally
+ * against each other.
+ */
+.search-result-container .movie-card-list-item {
+    border-left: 3px solid transparent;
+}
+
+.search-result-container .movie-card-list-item--watchlist {
+    background-color: var(--clr-surface-watchlist);
+    border-left-color: var(--clr-primary);
+}
+
+.search-result-container .movie-card-list-item--watchlist:hover,
+.search-result-container .movie-card-list-item--watchlist:focus-within {
+    background-color: var(--clr-surface-hover-watchlist);
+}
+
+.search-result-container .movie-card-list-item--watched {
+    background-color: var(--clr-surface-watched);
+    border-left-color: var(--clr-accent-watched);
+}
+
+.search-result-container .movie-card-list-item--watched:hover,
+.search-result-container .movie-card-list-item--watched:focus-within {
+    background-color: var(--clr-surface-hover-watched);
+}
+
 .drag-handle {
     display: inline-flex;
     align-items: center;

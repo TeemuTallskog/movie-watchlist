@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import MovieList from "./MovieList";
+import { readStoredMovies } from "../utils/movieStorage";
 import "../resources/css/MovieSearch.css"
 import Logo from "../resources/icons/logo.svg"
 
-const MovieSearch = ({setMovies}) => {
+const MovieSearch = ({setMovies, localById, deleteMovie, markAsWatched, editReview}) => {
     const [search, setSearch ] = useState('')
     const [options, setOptions] = useState([]);
     const textAreaRef = useRef(null)
@@ -46,10 +47,15 @@ const MovieSearch = ({setMovies}) => {
 
     useEffect(() => {
         const handleClick = (ev) => {
-            if (textAreaRef.current && textAreaRef.current.contains(ev.target)) {
-                setIsOpen(prev => !prev)
-            } else {
+            if (!textAreaRef.current || !textAreaRef.current.contains(ev.target)) {
                 setIsOpen(false)
+                return
+            }
+            // Only clicks on the search bar itself toggle the dropdown.
+            // Clicks inside the results — selecting a row or opening and
+            // using a card's menu — must keep the dropdown open.
+            if (ev.target.closest('.input-container')) {
+                setIsOpen(prev => !prev)
             }
         }
         window.addEventListener('click', handleClick)
@@ -57,13 +63,36 @@ const MovieSearch = ({setMovies}) => {
     }, []);
 
     const saveMovie = (item) => {
-            let savedMovies = JSON.parse(localStorage.getItem('Movies')) || [];
+            // A movie already in either list must not be added again; its
+            // search row is tinted and carries that list's menu instead.
+            const alreadyStored = ['Movies', 'Watched Movies'].some(storage =>
+                readStoredMovies(storage).some(movie => movie.id === item?.id)
+            )
+            if (alreadyStored) {
+                return
+            }
+            let savedMovies = readStoredMovies('Movies');
             savedMovies.unshift(item);
             localStorage.setItem('Movies', JSON.stringify(savedMovies));
             setMovies(savedMovies)
             setSearch('')
             setOptions([])
     }
+
+    // Which local list each dropdown result belongs to, for hue and menus.
+    const variantById = useMemo(() => {
+        const byId = new Map()
+        localById?.forEach((entry, id) => byId.set(id, entry.list))
+        return byId
+    }, [localById])
+
+    // Search rows backed by a local list render the stored entry, so its
+    // review, personal rating and refreshed poster show instead of the raw
+    // suggestion-API data.
+    const enrichedOptions = useMemo(() => options.map(option => {
+        const stored = localById?.get(option?.id)?.movie
+        return stored ? { ...stored } : option
+    }), [options, localById])
 
     return (
         <div ref={textAreaRef} className="search-container">
@@ -79,7 +108,17 @@ const MovieSearch = ({setMovies}) => {
                 placeholder="Search movies to add..."
             />
             </div>
-            <div className={isOpen ? "" : 'hide-dropdown'}><MovieList movies={options} containerClass="search-result-container" itemOnClick={saveMovie}/></div>
+            <div className={isOpen ? "" : 'hide-dropdown'}>
+                <MovieList
+                    movies={enrichedOptions}
+                    containerClass="search-result-container"
+                    itemOnClick={saveMovie}
+                    deleteMovie={deleteMovie}
+                    markAsWatched={markAsWatched}
+                    editReview={editReview}
+                    listById={variantById}
+                />
+            </div>
         </div>
     )
 };

@@ -8,7 +8,11 @@ const AUTO_SCROLL_EDGE = 28
 // Longest distance the list may scroll in a single animation frame.
 const AUTO_SCROLL_STEP = 12
 
-const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderable, moveMovie, movieType, sortMode, markAsWatched, editReview, ratings, onImageError}) => {
+// Height the popover reaches below its row (menu + margins), used to keep it
+// visible when the row sits near the bottom of a scroll container.
+const MENU_PROJECTION = 180
+
+const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderable, moveMovie, movieType, sortMode, markAsWatched, editReview, ratings, onImageError, listById}) => {
   // DnD works on storage-array indexes, so it is only valid when the displayed
   // order equals the storage order.
   const canReorder = Boolean(reorderable) && sortMode === 'custom'
@@ -29,6 +33,20 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderab
   const editMovieMenu = (func, ...args) => {
     setPopUpMenu(null)
     func(...args)
+  }
+
+  // Nudge the list's own scroll so a popover opened from the bottom of the
+  // dropdown stays inside the scrolling container.
+  const revealMenuBelow = (button) => {
+    const row = button.closest('.movie-card-list-item')
+    const list = row?.closest('.movie-card-list-ul')
+    if (!row || !list) {
+      return
+    }
+    const overflow = row.getBoundingClientRect().bottom + MENU_PROJECTION - list.getBoundingClientRect().bottom
+    if (overflow > 0) {
+      list.scrollTop += Math.ceil(overflow)
+    }
   }
 
   // Native drag and drop does not auto-scroll a container, so nudge the list
@@ -168,8 +186,11 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderab
     }
   }
 
-  const rowClassName = (index) => {
+  const rowClassName = (index, variant) => {
     const classes = ['movie-card-list-item']
+    if (variant) {
+      classes.push(`movie-card-list-item--${variant}`)
+    }
     if (draggingIndex === index) {
       classes.push('is-dragging')
     }
@@ -182,8 +203,33 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderab
   return (
     <div className={containerClass}>
       <ul className='movie-card-list-ul' onDragLeave={leaveList}>
-        {movies.map(( movie, index ) => (
-          <li className={rowClassName(index)} key={movie.id} onClick={ itemOnClick ? () => itemOnClick(movie) : () => {}} onDragOver={(event) => dragOverRow(event, index)} onDrop={(event) => dropOnRow(event, index)}>
+        {movies.map(( movie, index ) => {
+          // Search rows know which local list they belong to (listById); by
+          // definition they are already saved, so clicking them is a no-op
+          // and the menu carries that list's actions instead.
+          const variant = listById?.get(movie.id) || null
+          const rowMenu = variant
+            ? {
+                deleteType: variant === 'watched' ? 'Watched Movies' : 'Movies',
+                markAsWatched: variant === 'watchlist' ? markAsWatched : null,
+                editReview: variant === 'watched' ? editReview : null,
+              }
+            : { deleteType: movieType, markAsWatched, editReview }
+          const menuButton = deleteMovie
+            ? <button type="button" className="unicode" onClick={(event) => {
+                setPopUpMenu(state => state === movie.id ? null : movie.id)
+                // The search dropdown scrolls and can clip the absolutely
+                // positioned menu; the library panels overflow visibly.
+                if (containerClass) {
+                  revealMenuBelow(event.currentTarget)
+                }
+              }}>&#8942;</button>
+            : null
+          // In search mode only rows backed by a local list act as list
+          // members; library lists (no listById) render their own button.
+          const cardButton = listById ? (variant ? menuButton : null) : menuButton
+          return (
+          <li className={rowClassName(index, variant)} key={movie.id} onClick={ itemOnClick ? () => itemOnClick(movie) : () => {}} onDragOver={(event) => dragOverRow(event, index)} onDrop={(event) => dropOnRow(event, index)}>
             {canReorder ? (
               <span
                 className='drag-handle unicode'
@@ -194,10 +240,11 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderab
                 onDragEnd={finishDrag}
               >&#x283F;</span>
             ) : null}
-            <MovieCard movie={movie} imdbRating={ratings?.[movie.id]} onImageError={onImageError} button={ deleteMovie ? <button type="button" className="unicode" onClick={() => setPopUpMenu(state => state === movie.id ? null : movie.id)}>&#8942;</button> : null }/>
-            {popUpMenu === movie.id && <MovieCardMenu movie={movie} deleteFunction={deleteMovie} deleteType={movieType} markAsWatched={markAsWatched ? markAsWatched : null} editReview={editReview ? editReview : null} wrapperFunction={editMovieMenu}/>}
+            <MovieCard movie={movie} imdbRating={ratings?.[movie.id]} onImageError={onImageError} button={ cardButton }/>
+            {popUpMenu === movie.id && <MovieCardMenu movie={movie} deleteFunction={deleteMovie} deleteType={rowMenu.deleteType} markAsWatched={rowMenu.markAsWatched ? rowMenu.markAsWatched : null} editReview={rowMenu.editReview ? rowMenu.editReview : null} wrapperFunction={editMovieMenu}/>}
           </li>
-        ))}
+          )
+        })}
       </ul>
     </div>
   );

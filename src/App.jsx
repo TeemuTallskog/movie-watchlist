@@ -8,14 +8,7 @@ import RatingDialog from './components/RatingDialog';
 import { fetchPosterUrl } from './utils/movieImage';
 import { useImdbRatings } from './hooks/useImdbRatings';
 import { sortMovies } from './utils/sorting';
-
-const readStoredMovies = (storage) => {
-  try {
-    return JSON.parse(localStorage.getItem(storage)) || []
-  } catch {
-    return []
-  }
-}
+import { readStoredMovies } from './utils/movieStorage';
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -29,12 +22,19 @@ function App() {
   const [watchedSort, setWatchedSort] = useState('recent')
   const [watchedDirection, setWatchedDirection] = useState('desc')
   useEffect(() => {
-    const savedMovies = JSON.parse(localStorage.getItem('Movies')) || [];
-    setMovies(savedMovies);
-
-    const watchedMovies = JSON.parse(localStorage.getItem('Watched Movies')) || [];
-    setWatchedMovies(watchedMovies)
+    setMovies(readStoredMovies('Movies'));
+    setWatchedMovies(readStoredMovies('Watched Movies'));
   }, []);
+
+  // Runtime-only lookup handed to the search results: which local list holds
+  // each movie id. Watched wins when legacy data has the same id in both
+  // lists, since watched is the further-along state.
+  const localById = useMemo(() => {
+    const byId = new Map()
+    movies.forEach(movie => { if (movie?.id) byId.set(movie.id, { movie, list: 'watchlist' }) })
+    watchedMovies.forEach(movie => { if (movie?.id) byId.set(movie.id, { movie, list: 'watched' }) })
+    return byId
+  }, [movies, watchedMovies]);
 
   const deleteMovie = (movie, storage = 'Movies') => {
     let target = null
@@ -70,13 +70,27 @@ function App() {
     localStorage.setItem('Movies', JSON.stringify(newArr));
   }
 
+  // Enriched copies of stored movies flow through the UI (search results show
+  // local data); resolve the pristine stored entry so nothing runtime-only is
+  // persisted and stored data wins over stale search-API data.
+  const findStoredMovie = (movie, storages) => {
+    for (const storage of storages) {
+      const stored = readStoredMovies(storage).find(item => item.id === movie?.id)
+      if (stored) {
+        return stored
+      }
+    }
+    return movie
+  }
+
   const markAsWatched = (movie, review) => {
-    deleteMovie(movie, 'Movies')
-    const storedWatched = readStoredMovies('Watched Movies');
-    const watchedEntry = { ...movie, review: { ...review, updatedAt: Date.now() } }
-    const updatedWatched = [watchedEntry, ...storedWatched]
-    localStorage.setItem("Watched Movies", JSON.stringify(updatedWatched))
-    setWatchedMovies(updatedWatched)
+    const storedMovie = findStoredMovie(movie, ['Movies', 'Watched Movies'])
+    deleteMovie(storedMovie, 'Movies')
+    const watchedEntry = { ...storedMovie, review: { ...review, updatedAt: Date.now() } }
+    const updatedWatched = readStoredMovies('Watched Movies')
+    const updatedList = [watchedEntry, ...updatedWatched]
+    localStorage.setItem("Watched Movies", JSON.stringify(updatedList))
+    setWatchedMovies(updatedList)
   }
 
   const saveReview = (movie, review) => {
@@ -163,7 +177,13 @@ function App() {
 
   return (
     <div className="App">
-      <MovieSearch setMovies={setMovies}/>
+      <MovieSearch
+        setMovies={setMovies}
+        localById={localById}
+        deleteMovie={deleteMovie}
+        markAsWatched={movie => setReviewDialog({ movie, mode: 'watch' })}
+        editReview={movie => setReviewDialog({ movie, mode: 'edit' })}
+      />
       <div className='watchlist-content'>
         <Collapsible
           title="Watchlist"

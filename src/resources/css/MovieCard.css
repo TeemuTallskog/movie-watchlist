@@ -38,6 +38,11 @@
     color: #dedede;
 }
 
+/* Same dimming at row level for search results tinted as watched. */
+.movie-card-list-item--watched .movie-card-container-title a {
+    color: #dedede;
+}
+
 .movie-card-meta {
     display: flex;
     flex-wrap: wrap;
