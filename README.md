@@ -4,8 +4,10 @@
 
 Simple extension, that allows bookmarking movies/series from IMDB listings.  
 <p align="center">
-    <img src="README-resources/search.png" alt="search" width="45%">
-    <img src="README-resources/watchlist.png" alt="watchlist" width="45%">
+    <img src="README-resources/watchlist-1.png" alt="watchlist 1" width="24%" style="vertical-align: top">
+    <img src="README-resources/watchlist-2.png" alt="watchlist 2" width="24%" style="vertical-align: top">
+    <img src="README-resources/watchlist-3.png" alt="watchlist 3" width="24%" style="vertical-align: top">
+    <img src="README-resources/watchlist-4.png" alt="watchlist 4" width="24%" style="vertical-align: top">
 </p>
 
 -----
@@ -26,8 +28,8 @@ This README provides step-by-step instructions for setting up and building the `
 Ensure you have the following installed on your system:
 
 - **Operating System**: Any OS that supports Node.js (Windows, macOS, Linux)
-- **Node.js**: Version 14.0.0 or higher
-- **npm**: Version 6.0.0 or higher (usually comes with Node.js)
+- **Node.js**: Version 20.19.0 or higher (Node.js 22.12+ recommended)
+- **npm**: Version 10.0.0 or higher (usually comes with Node.js)
 
 ### Node.js and npm Installation
 
@@ -43,7 +45,8 @@ For Debian-based distributions (like Ubuntu):
 ```sh
 sudo apt update
 sudo apt install nodejs npm
-```  
+```
+If your distribution provides a Node.js version older than 20.19, install Node.js via [nvm](https://github.com/nvm-sh/nvm) or the [NodeSource](https://github.com/nodesource/distributions) packages.
 For other distributions, refer to the official Node.js documentation.
 
 ## Installation
@@ -71,11 +74,18 @@ This will run the app in development mode. Open http://localhost:3000 to view it
 
 ## How to build
 Navigate to project root and run:
-```cmd
+```sh
 npm run build
 ```
 This generates a `build` directory with all necessary resources.  
+The build command works on Windows (cmd and PowerShell), macOS, and Linux.
 All files/directories in the `build` directory need to be compressed into a `.zip` folder.
+
+To preview the production build locally:
+```sh
+npm run preview
+```
+This serves the `build` directory at http://localhost:4173.
 
 ## Add development build as a local temporary extension
 

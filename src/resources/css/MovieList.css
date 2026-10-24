@@ -1,4 +1,8 @@
-ul {
+/*
+ * Selectors are scoped to the component classes instead of bare `ul`/`li` so
+ * these rules cannot leak into other lists.
+ */
+.movie-card-list-ul {
     margin-right: 10px;
     margin-left: 0;
     margin-top: 0;
@@ -11,42 +15,99 @@ ul {
     overflow-x: hidden;
 }
 
-li {
-    margin-right: 10px;
-}
-
-.search-result-container li :hover{
-    cursor: pointer;
-    background-color: var(--clr-background-hover);
-}
-
-.sort-button {
-    background: none;
-    border: none;
-}
-
-button.sort-button:hover {
-    cursor: pointer;
-}
-
-.sort-button-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 .movie-card-list-item {
     display: flex;
     flex-direction: row;
     position: relative;
+    margin-right: 10px;
+    border-radius: 4px;
 }
 
-.movie-card-list-item button{
+.search-result-container .movie-card-list-item:hover,
+.search-result-container .movie-card-list-item:focus-within {
+    cursor: pointer;
+    background-color: var(--clr-background-hover);
+}
+
+/*
+ * Search results adopt the hue of the list they are already in. The uniform
+ * transparent border keeps tinted and neutral rows from shifting horizontally
+ * against each other.
+ */
+.search-result-container .movie-card-list-item {
+    border-left: 3px solid transparent;
+}
+
+.search-result-container .movie-card-list-item--watchlist {
+    background-color: var(--clr-surface-watchlist);
+    border-left-color: var(--clr-primary);
+}
+
+.search-result-container .movie-card-list-item--watchlist:hover,
+.search-result-container .movie-card-list-item--watchlist:focus-within {
+    background-color: var(--clr-surface-hover-watchlist);
+}
+
+.search-result-container .movie-card-list-item--watched {
+    background-color: var(--clr-surface-watched);
+    border-left-color: var(--clr-accent-watched);
+}
+
+.search-result-container .movie-card-list-item--watched:hover,
+.search-result-container .movie-card-list-item--watched:focus-within {
+    background-color: var(--clr-surface-hover-watched);
+}
+
+.drag-handle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    min-width: 24px;
+    padding: 0;
+    font-size: large;
+    line-height: 1;
+    cursor: grab;
+    user-select: none;
+    border-radius: 4px;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+/* The row left behind while its copy follows the pointer. */
+.movie-card-list-item.is-dragging {
+    opacity: 0.4;
+}
+
+/* Insertion line showing where the dragged row will land. */
+.movie-card-list-item.drop-before::before,
+.movie-card-list-item.drop-after::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 10px;
+    height: 2px;
+    background-color: var(--clr-primary);
+    z-index: 1;
+}
+
+.movie-card-list-item.drop-before::before {
+    top: -1px;
+}
+
+.movie-card-list-item.drop-after::after {
+    bottom: -1px;
+}
+
+.movie-card-list-item .unicode {
     color: var(--clr-text-light);
 }
 
-.movie-card-list-item .unicode:hover {
+.movie-card-list-item .unicode:hover,
+.movie-card-list-item .unicode:focus-visible {
     color: var(--clr-text-normal);
-    text-shadow: 0px 0px 2px var(--clr-text-normal);
+    background-color: var(--clr-background-hover);
+    border-radius: 4px;
 }

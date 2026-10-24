@@ -1,17 +1,56 @@
 :root {
-  --clr-primary: rgb(222,181,34);
-  --clr-secondary: black;
+  color-scheme: dark;
+
+  /* Accent */
+  --clr-primary: rgb(222, 181, 34);
+  --clr-focus: #e8c547;
+
+  /* Ratings */
+  --clr-imdb: #f5c518;
+  --clr-imdb-dim: rgba(245, 197, 24, 0.32);
+  --clr-star-track: #4a4a4a;
+
+  /* Surfaces */
   --clr-background: #121212;
   --clr-background-lighter: #222222;
   --clr-background-hover: #323232;
-  --clr-border: rgb(179,179,179);
-  --clr-btn-background: white;
-  --clr-btn-background-hover: gray;
-  --clr-text-normal: white;
-  --clr-text-light: rgba(255,255,255,0.7);
-  --clr-text-warning: rgb(225,0,0);
-  --clr-scrollbar-background: var(--clr-border);
-  --clr-scrollbar-border: transparent;
+  --clr-border-subtle: #666666;
+
+  /* List surfaces: neutral for search, warm for the watchlist, cool for the archive. */
+  --clr-surface-search: #222222;
+  --clr-surface-watchlist: #201c11;
+  --clr-surface-watched: #161b22;
+  --clr-surface-hover-watchlist: #2d2614;
+  --clr-surface-hover-watched: #212c3a;
+
+  /* List accents */
+  --clr-accent-watched: #6f8ca8;
+  --clr-border-search: #4d4d4d;
+  --clr-border-watchlist: rgba(222, 181, 34, 0.38);
+  --clr-border-watched: rgba(111, 140, 168, 0.35);
+  --clr-header-watchlist: rgba(222, 181, 34, 0.14);
+  --clr-header-watched: rgba(111, 140, 168, 0.14);
+
+  /* Text */
+  --clr-text-normal: #ffffff;
+  --clr-text-light: #c8c8c8;
+  --clr-text-muted: #a8a8a8;
+  --clr-text-warning: #ff8080;
+
+  /* Scrollbars */
+  --clr-scrollbar-track: transparent;
+  --clr-scrollbar-page: rgba(255, 255, 255, 0.32);
+  --clr-scrollbar-page-hover: rgba(255, 255, 255, 0.55);
+  --clr-scrollbar-panel: rgba(255, 255, 255, 0.45);
+  --clr-scrollbar-panel-hover: rgba(255, 255, 255, 0.7);
+
+  /* Overlays */
+  --clr-shadow: rgba(0, 0, 0, 0.5);
+  --clr-shadow-elevated: rgba(0, 0, 0, 0.65);
+}
+
+html {
+  background-color: var(--clr-background);
 }
 
 body {
@@ -22,6 +61,7 @@ body {
   max-height: 600px;
   overflow-x: hidden;
   overflow-y: hidden;
+  color: var(--clr-text-normal);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -31,7 +71,7 @@ body {
 }
 
 .watchlist-content {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 550px;
 }
 
@@ -44,20 +84,131 @@ code {
   display: none;
 }
 
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--clr-scrollbar-background) var(--clr-scrollbar-border);
+/* Keep native controls in the dark theme instead of falling back to black. */
+button,
+input {
+  color: inherit;
+  font: inherit;
 }
+
+button {
+  cursor: pointer;
+}
+
+/* Visible keyboard focus for every interactive element (WCAG 2.4.7). */
+:focus-visible {
+  outline: 2px solid var(--clr-focus);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+::placeholder {
+  color: var(--clr-text-muted);
+  opacity: 1; /* Firefox lowers placeholder opacity by default. */
+}
+
+::selection {
+  background-color: var(--clr-primary);
+  color: var(--clr-background);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a,
+  button {
+    transition: color 120ms ease, background-color 120ms ease,
+      border-color 120ms ease;
+  }
+}
+
+/*
+ * Scrollbars are styled per role so the window bar, the collapsible list bars
+ * and the search-result bar never blend into a single strip:
+ * - window: narrow, dimmer pill
+ * - lists: wider, brighter pill
+ * Only Chromium/Safari expose pseudo-elements for scrollbar geometry/buttons;
+ * Firefox is limited to scrollbar-width/scrollbar-color (below).
+ */
+.watchlist-content,
+.collapsible-content,
+.search-result-container .movie-card-list-ul {
+  scrollbar-gutter: stable;
+}
+
 /* Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-  width: 16px;
+.watchlist-content::-webkit-scrollbar {
+  width: 8px;
 }
-*::-webkit-scrollbar-track {
-  background: var(--clr-scrollbar-background);
+.collapsible-content::-webkit-scrollbar,
+.search-result-container .movie-card-list-ul::-webkit-scrollbar {
+  width: 12px;
 }
-*::-webkit-scrollbar-thumb {
-  background-color: var(--clr-scrollbar-background);
-  border-radius: 10px;
-  border: 1px none var(--clr-scrollbar-border);
+
+.watchlist-content::-webkit-scrollbar-track,
+.collapsible-content::-webkit-scrollbar-track,
+.search-result-container .movie-card-list-ul::-webkit-scrollbar-track,
+.watchlist-content::-webkit-scrollbar-track-piece,
+.collapsible-content::-webkit-scrollbar-track-piece,
+.search-result-container .movie-card-list-ul::-webkit-scrollbar-track-piece,
+.watchlist-content::-webkit-scrollbar-corner,
+.collapsible-content::-webkit-scrollbar-corner,
+.search-result-container .movie-card-list-ul::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Inset pill thumbs: the transparent border keeps them clear of the edge. */
+.watchlist-content::-webkit-scrollbar-thumb,
+.collapsible-content::-webkit-scrollbar-thumb,
+.search-result-container .movie-card-list-ul::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+
+.watchlist-content::-webkit-scrollbar-thumb {
+  background-color: var(--clr-scrollbar-page);
+}
+.watchlist-content::-webkit-scrollbar-thumb:hover {
+  background-color: var(--clr-scrollbar-page-hover);
+}
+
+.collapsible-content::-webkit-scrollbar-thumb,
+.search-result-container .movie-card-list-ul::-webkit-scrollbar-thumb {
+  background-color: var(--clr-scrollbar-panel);
+}
+.collapsible-content::-webkit-scrollbar-thumb:hover,
+.search-result-container
+  .movie-card-list-ul::-webkit-scrollbar-thumb:hover {
+  background-color: var(--clr-scrollbar-panel-hover);
+}
+
+/* Modern bars have no stepper arrows. Not styleable in Firefox. */
+.watchlist-content::-webkit-scrollbar-button,
+.collapsible-content::-webkit-scrollbar-button,
+.search-result-container .movie-card-list-ul::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/*
+ * Firefox: only scrollbar-width and scrollbar-color are available. `thin`
+ * is the documented button-less variant. Scoped with a Firefox-only feature
+ * query so Chromium keeps using the pseudo-elements above instead of
+ * switching to its native scrollbars. (`not selector(::-webkit-scrollbar)`
+ * is unreliable: Firefox 153-154 report that selector as supported.)
+ */
+@supports (-moz-appearance: none) {
+  .watchlist-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--clr-scrollbar-page) var(--clr-scrollbar-track);
+  }
+
+  .collapsible-content,
+  .search-result-container .movie-card-list-ul {
+    scrollbar-width: thin;
+    scrollbar-color: var(--clr-scrollbar-panel) var(--clr-scrollbar-track);
+  }
 }

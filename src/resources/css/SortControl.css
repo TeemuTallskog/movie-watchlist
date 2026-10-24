@@ -1,0 +1,70 @@
+.sort-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sort-control-label {
+    font-size: small;
+    color: var(--clr-text-muted);
+    user-select: none;
+}
+
+.sort-control-select {
+    box-sizing: border-box;
+    width: 118px;
+    border: none;
+    background: transparent;
+    color: var(--clr-text-normal);
+    padding: 3px 2px;
+    font-size: small;
+    cursor: pointer;
+}
+
+.sort-control-select:hover {
+    color: var(--clr-primary);
+}
+
+.sort-control-select:focus-visible {
+    outline: 2px solid var(--clr-focus);
+    outline-offset: 1px;
+    border-radius: 4px;
+}
+
+.sort-control-direction {
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    background: transparent;
+    color: var(--clr-text-normal);
+    padding: 2px 4px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.sort-control-direction:hover,
+.sort-control-direction:focus-visible {
+    background-color: var(--clr-background-hover);
+}
+
+.sort-control-direction:focus-visible {
+    outline: 2px solid var(--clr-focus);
+    outline-offset: 1px;
+}
+
+.sort-control-direction-icon {
+    width: 11px;
+    height: 11px;
+    fill: currentColor;
+    transition: transform 0.15s ease;
+}
+
+/* Ascending is the ladder flipped upside-down: widest bar on top. */
+.sort-control-direction--asc .sort-control-direction-icon {
+    transform: rotate(180deg);
+}
+
+/* Without a direction toggle there is nothing to the right of the select. */
+.sort-control--no-direction .sort-control-direction {
+    display: none;
+}
