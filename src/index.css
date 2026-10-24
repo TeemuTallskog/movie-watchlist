@@ -5,6 +5,11 @@
   --clr-primary: rgb(222, 181, 34);
   --clr-focus: #e8c547;
 
+  /* Ratings */
+  --clr-imdb: #f5c518;
+  --clr-imdb-dim: rgba(245, 197, 24, 0.32);
+  --clr-star-track: #4a4a4a;
+
   /* Surfaces */
   --clr-background: #121212;
   --clr-background-lighter: #222222;

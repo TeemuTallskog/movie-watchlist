@@ -8,7 +8,7 @@ const AUTO_SCROLL_EDGE = 28
 // Longest distance the list may scroll in a single animation frame.
 const AUTO_SCROLL_STEP = 12
 
-const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderable, moveMovie, movieType, markAsWatched, onImageError}) => {
+const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderable, moveMovie, movieType, markAsWatched, editReview, ratings, onImageError}) => {
   const [popUpMenu, setPopUpMenu] = useState(null)
   const [draggingIndex, setDraggingIndex] = useState(null)
   // { index, after } of the row the pointer is over, plus which half it is on.
@@ -187,8 +187,8 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderab
                 onDragEnd={finishDrag}
               >&#x283F;</span>
             ) : null}
-            <MovieCard movie={movie} onImageError={onImageError} button={ deleteMovie ? <button type="button" className="unicode" onClick={() => setPopUpMenu(state => state === movie.id ? null : movie.id)}>&#8942;</button> : null }/>
-            {popUpMenu === movie.id && <MovieCardMenu movie={movie} deleteFunction={deleteMovie} deleteType={movieType} markAsWatched={markAsWatched ? markAsWatched : null} wrapperFunction={editMovieMenu}/>}
+            <MovieCard movie={movie} imdbRating={ratings?.[movie.id]} onImageError={onImageError} button={ deleteMovie ? <button type="button" className="unicode" onClick={() => setPopUpMenu(state => state === movie.id ? null : movie.id)}>&#8942;</button> : null }/>
+            {popUpMenu === movie.id && <MovieCardMenu movie={movie} deleteFunction={deleteMovie} deleteType={movieType} markAsWatched={markAsWatched ? markAsWatched : null} editReview={editReview ? editReview : null} wrapperFunction={editMovieMenu}/>}
           </li>
         ))}
       </ul>

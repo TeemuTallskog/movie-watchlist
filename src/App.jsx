@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import MovieList from './components/MovieList';
 import MovieSearch from './components/MovieSearch';
 import Collapsible from './components/Collapsible';
+import RatingDialog from './components/RatingDialog';
 import { fetchPosterUrl } from './utils/movieImage';
+import { useImdbRatings } from './hooks/useImdbRatings';
 
 const readStoredMovies = (storage) => {
   try {
@@ -16,6 +18,9 @@ const readStoredMovies = (storage) => {
 function App() {
   const [movies, setMovies] = useState([])
   const [watchedMovies, setWatchedMovies] = useState([])
+  const imdbRatings = useImdbRatings(movies, watchedMovies)
+  // { movie, mode: 'watch' | 'edit' } while the rating dialog is open.
+  const [reviewDialog, setReviewDialog] = useState(null)
   useEffect(() => {
     const savedMovies = JSON.parse(localStorage.getItem('Movies')) || [];
     setMovies(savedMovies);
@@ -58,12 +63,35 @@ function App() {
     localStorage.setItem('Movies', JSON.stringify(newArr));
   }
 
-  const markAsWatched = (movie) => {
+  const markAsWatched = (movie, review) => {
     deleteMovie(movie, 'Movies')
-    const watchedMovies = JSON.parse(localStorage.getItem('Watched Movies')) || [];
-    watchedMovies.unshift(movie)
-    localStorage.setItem("Watched Movies", JSON.stringify(watchedMovies))
-    setWatchedMovies(watchedMovies)
+    const storedWatched = readStoredMovies('Watched Movies');
+    const watchedEntry = { ...movie, review: { ...review, updatedAt: Date.now() } }
+    const updatedWatched = [watchedEntry, ...storedWatched]
+    localStorage.setItem("Watched Movies", JSON.stringify(updatedWatched))
+    setWatchedMovies(updatedWatched)
+  }
+
+  const saveReview = (movie, review) => {
+    const updatedWatched = readStoredMovies('Watched Movies').map(item => (
+      item.id === movie.id
+        ? { ...item, review: { ...review, updatedAt: Date.now() } }
+        : item
+    ))
+    localStorage.setItem("Watched Movies", JSON.stringify(updatedWatched))
+    setWatchedMovies(updatedWatched)
+  }
+
+  const submitReview = (review) => {
+    if (!reviewDialog) {
+      return
+    }
+    if (reviewDialog.mode === 'watch') {
+      markAsWatched(reviewDialog.movie, review)
+    } else {
+      saveReview(reviewDialog.movie, review)
+    }
+    setReviewDialog(null)
   }
 
   const replaceMovieImage = (movieId, imageUrl) => {
@@ -107,12 +135,22 @@ function App() {
       <MovieSearch setMovies={setMovies}/>
       <div className='watchlist-content'>
         <Collapsible title="Watchlist" open={true} itemCount={movies.length} variant="watchlist">
-          <MovieList movies={movies} deleteMovie={deleteMovie} movieType="Movies" reorderable={true} moveMovie={moveMovie} markAsWatched={markAsWatched} onImageError={refreshMovieImage}/>
+          <MovieList movies={movies} deleteMovie={deleteMovie} movieType="Movies" reorderable={true} moveMovie={moveMovie} markAsWatched={movie => setReviewDialog({ movie, mode: 'watch' })} ratings={imdbRatings} onImageError={refreshMovieImage}/>
         </Collapsible>
         <Collapsible title="Watched" open={false} itemCount={watchedMovies.length} variant="watched">
-          <MovieList movies={watchedMovies} deleteMovie={deleteMovie} movieType="Watched Movies" onImageError={refreshMovieImage}/>
+          <MovieList movies={watchedMovies} deleteMovie={deleteMovie} movieType="Watched Movies" editReview={movie => setReviewDialog({ movie, mode: 'edit' })} ratings={imdbRatings} onImageError={refreshMovieImage}/>
         </Collapsible>
       </div>
+      {reviewDialog ? (
+        <RatingDialog
+          key={`${reviewDialog.mode}-${reviewDialog.movie.id}`}
+          movie={reviewDialog.movie}
+          mode={reviewDialog.mode}
+          imdbRating={imdbRatings[reviewDialog.movie.id]}
+          onCancel={() => setReviewDialog(null)}
+          onSubmit={submitReview}
+        />
+      ) : null}
     </div>
   );
 }
