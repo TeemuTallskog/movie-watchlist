@@ -3,7 +3,7 @@ import MovieCard from './MovieCard';
 import "../resources/css/MovieList.css"
 import MovieCardMenu from './MovieCardMenu';
 
-const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, shiftPosition, movieType, markAsWatched}) => {
+const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, shiftPosition, movieType, markAsWatched, onImageError}) => {
   const [popUpMenu, setPopUpMenu] = useState(null)
   const editMovieMenu = (func, ...args) => {
     setPopUpMenu(null)
@@ -19,7 +19,7 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, shiftPosi
               <button type='button' className='sort-button unicode' onClick={() => shiftPosition(index, -1)}>&#x25B2;</button>
               <button type='button' className='sort-button unicode' onClick={() => shiftPosition(index, 1)}>&#x25BC;</button>
             </div> : null}
-            <MovieCard movie={movie} button={ deleteMovie ? <button type="button" className="unicode" onClick={() => setPopUpMenu(state => state === index ? null : index)}>&#8942;</button> : null }/>
+            <MovieCard movie={movie} onImageError={onImageError} button={ deleteMovie ? <button type="button" className="unicode" onClick={() => setPopUpMenu(state => state === index ? null : index)}>&#8942;</button> : null }/>
             {popUpMenu === index && <MovieCardMenu movie={movie} deleteFunction={deleteMovie} deleteType={movieType} markAsWatched={markAsWatched ? markAsWatched : null} wrapperFunction={editMovieMenu}/>}
           </li>
         ))}
