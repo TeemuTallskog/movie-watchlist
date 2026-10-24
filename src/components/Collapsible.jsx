@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../resources/css/Collapsible.css';
 
-const Collapsible = ({ title, children, open, itemCount, variant }) => {
+const Collapsible = ({ title, children, open, itemCount, variant, headerExtra }) => {
   const [isOpen, setIsOpen] = useState(open);
 
   const toggleOpen = () => setIsOpen(prevState => !prevState);
@@ -12,6 +12,12 @@ const Collapsible = ({ title, children, open, itemCount, variant }) => {
         <span className={`arrow ${isOpen ? 'open' : ''}`}>{isOpen ? '-' : '+'}</span>
         <span className="title">{title}</span>
         {itemCount ? <span className='title-count'>{itemCount}</span> : null}
+        {headerExtra ? (
+          // Clicks inside the control must not collapse the panel.
+          <span className="collapsible-header-extra" onClick={event => event.stopPropagation()}>
+            {headerExtra}
+          </span>
+        ) : null}
       </div>
       {isOpen && <div className="collapsible-content">{children}</div>}
     </div>

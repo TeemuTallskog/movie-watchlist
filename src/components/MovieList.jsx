@@ -8,7 +8,10 @@ const AUTO_SCROLL_EDGE = 28
 // Longest distance the list may scroll in a single animation frame.
 const AUTO_SCROLL_STEP = 12
 
-const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderable, moveMovie, movieType, markAsWatched, editReview, ratings, onImageError}) => {
+const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderable, moveMovie, movieType, sortMode, markAsWatched, editReview, ratings, onImageError}) => {
+  // DnD works on storage-array indexes, so it is only valid when the displayed
+  // order equals the storage order.
+  const canReorder = Boolean(reorderable) && sortMode === 'custom'
   const [popUpMenu, setPopUpMenu] = useState(null)
   const [draggingIndex, setDraggingIndex] = useState(null)
   // { index, after } of the row the pointer is over, plus which half it is on.
@@ -104,7 +107,7 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderab
   }
 
   const dragOverRow = (event, index) => {
-    if (dragSourceRef.current.index < 0) {
+    if (!canReorder || dragSourceRef.current.index < 0) {
       return
     }
 
@@ -129,6 +132,10 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderab
 
   const dropOnRow = (event, index) => {
     event.preventDefault()
+
+    if (!canReorder) {
+      return
+    }
 
     const { index: fromIndex } = dragSourceRef.current
     if (fromIndex < 0) {
@@ -177,7 +184,7 @@ const MovieList = ({ movies, containerClass, itemOnClick, deleteMovie, reorderab
       <ul className='movie-card-list-ul' onDragLeave={leaveList}>
         {movies.map(( movie, index ) => (
           <li className={rowClassName(index)} key={movie.id} onClick={ itemOnClick ? () => itemOnClick(movie) : () => {}} onDragOver={(event) => dragOverRow(event, index)} onDrop={(event) => dropOnRow(event, index)}>
-            {reorderable ? (
+            {canReorder ? (
               <span
                 className='drag-handle unicode'
                 draggable

@@ -72,6 +72,10 @@
   margin-left: 10px;
 }
 
+.collapsible-header .collapsible-header-extra {
+  margin-left: auto;
+}
+
 .collapsible--watchlist .collapsible-header .title-count {
   color: var(--clr-text-normal);
   background-color: rgba(222, 181, 34, 0.18);

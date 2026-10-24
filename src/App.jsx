@@ -1,11 +1,13 @@
 // src/App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import MovieList from './components/MovieList';
 import MovieSearch from './components/MovieSearch';
 import Collapsible from './components/Collapsible';
+import SortControl from './components/SortControl';
 import RatingDialog from './components/RatingDialog';
 import { fetchPosterUrl } from './utils/movieImage';
 import { useImdbRatings } from './hooks/useImdbRatings';
+import { sortMovies } from './utils/sorting';
 
 const readStoredMovies = (storage) => {
   try {
@@ -21,6 +23,11 @@ function App() {
   const imdbRatings = useImdbRatings(movies, watchedMovies)
   // { movie, mode: 'watch' | 'edit' } while the rating dialog is open.
   const [reviewDialog, setReviewDialog] = useState(null)
+  // Display-only sort choices; the storage arrays keep their manual order.
+  const [watchlistSort, setWatchlistSort] = useState('custom')
+  const [watchlistDirection, setWatchlistDirection] = useState('desc')
+  const [watchedSort, setWatchedSort] = useState('recent')
+  const [watchedDirection, setWatchedDirection] = useState('desc')
   useEffect(() => {
     const savedMovies = JSON.parse(localStorage.getItem('Movies')) || [];
     setMovies(savedMovies);
@@ -130,15 +137,67 @@ function App() {
     replaceMovieImage(movie.id, imageUrl)
   }
 
+  const sortedWatchlist = useMemo(
+    () => sortMovies(movies, watchlistSort, watchlistDirection, imdbRatings),
+    [movies, watchlistSort, watchlistDirection, imdbRatings]
+  )
+
+  const sortedWatched = useMemo(
+    () => sortMovies(watchedMovies, watchedSort, watchedDirection, imdbRatings),
+    [watchedMovies, watchedSort, watchedDirection, imdbRatings]
+  )
+
+  const watchlistSortOptions = [
+    { value: 'custom', label: 'Custom' },
+    { value: 'imdb', label: 'Rating' },
+    { value: 'year', label: 'Year' },
+  ]
+
+  const watchedSortOptions = [
+    { value: 'recent', label: 'Recent' },
+    { value: 'oldest', label: 'Oldest' },
+    { value: 'imdb', label: 'IMDb rating' },
+    { value: 'personal', label: 'Personal rating' },
+    { value: 'year', label: 'Year' },
+  ]
+
   return (
     <div className="App">
       <MovieSearch setMovies={setMovies}/>
       <div className='watchlist-content'>
-        <Collapsible title="Watchlist" open={true} itemCount={movies.length} variant="watchlist">
-          <MovieList movies={movies} deleteMovie={deleteMovie} movieType="Movies" reorderable={true} moveMovie={moveMovie} markAsWatched={movie => setReviewDialog({ movie, mode: 'watch' })} ratings={imdbRatings} onImageError={refreshMovieImage}/>
+        <Collapsible
+          title="Watchlist"
+          open={true}
+          itemCount={movies.length}
+          variant="watchlist"
+          headerExtra={
+            <SortControl
+              options={watchlistSortOptions}
+              sort={watchlistSort}
+              setSort={setWatchlistSort}
+              direction={watchlistDirection}
+              setDirection={setWatchlistDirection}
+            />
+          }
+        >
+          <MovieList movies={sortedWatchlist} deleteMovie={deleteMovie} movieType="Movies" reorderable={true} moveMovie={moveMovie} sortMode={watchlistSort} markAsWatched={movie => setReviewDialog({ movie, mode: 'watch' })} ratings={imdbRatings} onImageError={refreshMovieImage}/>
         </Collapsible>
-        <Collapsible title="Watched" open={false} itemCount={watchedMovies.length} variant="watched">
-          <MovieList movies={watchedMovies} deleteMovie={deleteMovie} movieType="Watched Movies" editReview={movie => setReviewDialog({ movie, mode: 'edit' })} ratings={imdbRatings} onImageError={refreshMovieImage}/>
+        <Collapsible
+          title="Watched"
+          open={false}
+          itemCount={watchedMovies.length}
+          variant="watched"
+          headerExtra={
+            <SortControl
+              options={watchedSortOptions}
+              sort={watchedSort}
+              setSort={setWatchedSort}
+              direction={watchedDirection}
+              setDirection={setWatchedDirection}
+            />
+          }
+        >
+          <MovieList movies={sortedWatched} deleteMovie={deleteMovie} movieType="Watched Movies" sortMode={watchedSort} editReview={movie => setReviewDialog({ movie, mode: 'edit' })} ratings={imdbRatings} onImageError={refreshMovieImage}/>
         </Collapsible>
       </div>
       {reviewDialog ? (
