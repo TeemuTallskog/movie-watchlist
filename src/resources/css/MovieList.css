@@ -1,4 +1,8 @@
-ul {
+/*
+ * Selectors are scoped to the component classes instead of bare `ul`/`li` so
+ * these rules cannot leak into other lists.
+ */
+.movie-card-list-ul {
     margin-right: 10px;
     margin-left: 0;
     margin-top: 0;
@@ -11,11 +15,16 @@ ul {
     overflow-x: hidden;
 }
 
-li {
+.movie-card-list-item {
+    display: flex;
+    flex-direction: row;
+    position: relative;
     margin-right: 10px;
+    border-radius: 4px;
 }
 
-.search-result-container li :hover{
+.search-result-container .movie-card-list-item:hover,
+.search-result-container .movie-card-list-item:focus-within {
     cursor: pointer;
     background-color: var(--clr-background-hover);
 }
@@ -23,10 +32,19 @@ li {
 .sort-button {
     background: none;
     border: none;
+    color: var(--clr-text-light);
+    min-width: 24px;
+    min-height: 24px;
+    padding: 0;
+    line-height: 1;
+    border-radius: 4px;
 }
 
-button.sort-button:hover {
+button.sort-button:hover,
+button.sort-button:focus-visible {
     cursor: pointer;
+    color: var(--clr-text-normal);
+    background-color: var(--clr-background-hover);
 }
 
 .sort-button-container {
@@ -36,17 +54,13 @@ button.sort-button:hover {
     justify-content: center;
 }
 
-.movie-card-list-item {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-}
-
-.movie-card-list-item button{
+.movie-card-list-item .unicode {
     color: var(--clr-text-light);
 }
 
-.movie-card-list-item .unicode:hover {
+.movie-card-list-item .unicode:hover,
+.movie-card-list-item .unicode:focus-visible {
     color: var(--clr-text-normal);
-    text-shadow: 0px 0px 2px var(--clr-text-normal);
+    background-color: var(--clr-background-hover);
+    border-radius: 4px;
 }

@@ -10,17 +10,28 @@
   font-weight: bold;
   user-select: none;
   margin-bottom: 10px;
+  padding: 4px 0;
+  border-radius: 4px;
   color: var(--clr-text-normal);
 }
 
-.collapsible-header .title-count{
-  color: var(--clr-text-light);
-  font-size: small;
-  margin-left: 10px;
+.collapsible-header:hover {
+  background-color: var(--clr-background-hover);
 }
 
-.collapsible-header :hover{
-  text-shadow: 0px 0px 1px var(--clr-text-normal);
+.collapsible-header:hover .title-count {
+  color: var(--clr-text-light);
+}
+
+.collapsible-header:focus-visible {
+  outline: 2px solid var(--clr-focus);
+  outline-offset: 2px;
+}
+
+.collapsible-header .title-count{
+  color: var(--clr-text-muted);
+  font-size: small;
+  margin-left: 10px;
 }
 
 .arrow {
@@ -35,7 +46,8 @@
 .collapsible-content {
   padding: 0 10px;
   max-height: 400px;
-  overflow-y: scroll;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 
 .collapsible-content > div {

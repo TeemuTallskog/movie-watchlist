@@ -3,18 +3,21 @@
     align-items: center;
     margin: 0;
     flex-grow: 1;
+    min-width: 0;
 }
 
 .movie-card-container img {
     max-height: 50px;
     width: auto;
-    margin: 10px 0px 10px 10px
+    margin: 10px 0px 10px 10px;
+    border-radius: 4px;
 }
 
 .movie-card-container-title {
     display: flex;
     flex-direction: column;
     margin: 10px;
+    min-width: 0;
 }
 
 .movie-card-container-title a {
@@ -25,7 +28,8 @@
     margin-bottom: 5px;
 }
 
-.movie-card-container-title a:hover {
+.movie-card-container-title a:hover,
+.movie-card-container-title a:focus-visible {
     text-decoration: underline;
 }
 
@@ -41,6 +45,14 @@
     font-size: x-large;
     margin-right: 15px;
     margin-left: auto;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    line-height: 1;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .movie-card-container button:hover {
@@ -54,14 +66,17 @@
 
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: stretch;
 
     width: 150px;
     margin-right: 35px;
     margin-top: 30px;
+    padding: 4px;
 
     background-color: var(--clr-background-lighter);
-    border-radius: 5px;
+    border: 1px solid var(--clr-border-subtle);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px var(--clr-shadow);
 
     font-size: small !important;
 }
@@ -69,18 +84,33 @@
 .movie-card-menu-container button {
     background: transparent;
     border: none;
-    padding: 10px;
+    color: var(--clr-text-normal);
+    padding: 12px 14px;
     z-index: 11;
     width: 100%;
     text-align: start;
+    border-radius: 4px;
 }
 
-.movie-card-menu-container button:hover {
-    text-shadow: 0px 0px 1px var(--clr-text-normal);
+.movie-card-menu-container button:hover,
+.movie-card-menu-container button:focus-visible {
+    background-color: var(--clr-background-hover);
     color: var(--clr-text-normal);
     cursor: pointer;
 }
 
+/* Keep the ring inside the panel so it is not clipped by the border. */
+.movie-card-menu-container button:focus-visible {
+    outline: 2px solid var(--clr-focus);
+    outline-offset: -2px;
+}
+
 .movie-card-menu-container .deleteButton {
     color: var(--clr-text-warning);
+}
+
+.movie-card-menu-container .deleteButton:hover,
+.movie-card-menu-container .deleteButton:focus-visible {
+    color: var(--clr-text-warning);
+    background-color: rgba(255, 128, 128, 0.15);
 }
