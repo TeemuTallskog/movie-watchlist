@@ -46,7 +46,11 @@
 }
 
 .search-result-container {
-  background-color: var(--clr-background);
-  border-bottom: 1px solid var(--clr-border-subtle);
-  box-shadow: 0 8px 16px var(--clr-shadow);
+  background-color: var(--clr-surface-search);
+  border: 1px solid var(--clr-border-search);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 10px 22px var(--clr-shadow-elevated);
+  padding: 4px 0;
+  overflow: hidden;
 }

@@ -33,6 +33,11 @@
     text-decoration: underline;
 }
 
+/* Completed titles are still white-on-dark AA, just a step quieter. */
+.collapsible--watched .movie-card-container-title a {
+    color: #dedede;
+}
+
 .movie-card-container-title p {
     font-size: 14px;
     color: var(--clr-text-light); /* Adjust color as needed */

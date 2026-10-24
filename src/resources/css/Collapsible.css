@@ -1,6 +1,20 @@
 .collapsible {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 12px 10px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+}
+
+/* Warm panel for active bookmarks, cool panel for the archive. */
+.collapsible--watchlist {
+    background-color: var(--clr-surface-watchlist);
+    border-color: var(--clr-border-watchlist);
+    border-left: 3px solid var(--clr-primary);
+}
+
+.collapsible--watched {
+    background-color: var(--clr-surface-watched);
+    border-color: var(--clr-border-watched);
+    border-left: 3px solid var(--clr-accent-watched);
 }
 
 .collapsible-header {
@@ -9,18 +23,38 @@
   cursor: pointer;
   font-weight: bold;
   user-select: none;
-  margin-bottom: 10px;
-  padding: 4px 0;
-  border-radius: 4px;
+  padding: 8px 10px;
+  border-radius: 7px 7px 0 0;
   color: var(--clr-text-normal);
+}
+
+/* Collapsed panels have no content below the header, so round every corner. */
+.collapsible-header--closed {
+  border-radius: 7px;
 }
 
 .collapsible-header:hover {
   background-color: var(--clr-background-hover);
 }
 
+.collapsible--watchlist .collapsible-header {
+  background-color: var(--clr-header-watchlist);
+}
+
+.collapsible--watchlist .collapsible-header:hover {
+  background-color: rgba(222, 181, 34, 0.22);
+}
+
+.collapsible--watched .collapsible-header {
+  background-color: var(--clr-header-watched);
+}
+
+.collapsible--watched .collapsible-header:hover {
+  background-color: rgba(134, 169, 143, 0.22);
+}
+
 .collapsible-header:hover .title-count {
-  color: var(--clr-text-light);
+  color: var(--clr-text-normal);
 }
 
 .collapsible-header:focus-visible {
@@ -28,15 +62,30 @@
   outline-offset: 2px;
 }
 
-.collapsible-header .title-count{
-  color: var(--clr-text-muted);
+.collapsible-header .title-count {
+  color: var(--clr-text-light);
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 1px 7px;
   font-size: small;
   margin-left: 10px;
 }
 
+.collapsible--watchlist .collapsible-header .title-count {
+  color: var(--clr-text-normal);
+  background-color: rgba(222, 181, 34, 0.18);
+  border-color: rgba(222, 181, 34, 0.4);
+}
+
+.collapsible--watched .collapsible-header .title-count {
+  color: var(--clr-text-normal);
+  background-color: rgba(134, 169, 143, 0.18);
+  border-color: rgba(134, 169, 143, 0.4);
+}
+
 .arrow {
   margin-right: 10px;
-  margin-left: 10px;
   min-width: 20px;
   max-width: 20px;
   font-size: large;
@@ -44,7 +93,7 @@
 }
 
 .collapsible-content {
-  padding: 0 10px;
+  padding: 4px 10px 8px;
   max-height: 400px;
   overflow-y: auto;
   scrollbar-gutter: stable;
@@ -56,4 +105,21 @@
 
 .collapsible-content .movie-card-list-ul {
   overflow: visible;
+}
+
+/* Row feedback in the library lists, matching the search results. */
+.collapsible--watchlist .movie-card-list-item:hover,
+.collapsible--watchlist .movie-card-list-item:focus-within {
+  background-color: var(--clr-surface-hover-watchlist);
+}
+
+.collapsible--watched .movie-card-list-item:hover,
+.collapsible--watched .movie-card-list-item:focus-within {
+  background-color: var(--clr-surface-hover-watched);
+}
+
+/* Rows are long and dense; a hairline divider makes them easier to scan. */
+.collapsible--watchlist .movie-card-list-item + .movie-card-list-item,
+.collapsible--watched .movie-card-list-item + .movie-card-list-item {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
