@@ -99,7 +99,9 @@ const MovieSearch = ({setMovies, localById, deleteMovie, markAsWatched, editRevi
     return (
         <div ref={textAreaRef} className="search-container">
             <div className={`input-container ${open ? 'focused' : ''}`}>
-            <img src={Logo} alt="logo" id="logo"></img>
+            <a href="https://addons.mozilla.org/en-US/firefox/addon/movie-watchlist/" target="_blank" rel="noopener noreferrer" id="logo-link">
+                <img src={Logo} alt="logo" id="logo"></img>
+            </a>
             <input 
                 className="search-field"
                 type="text"

@@ -17,9 +17,20 @@
     outline: none;
 }
 
-#logo{
+#logo-link{
+  display: flex;
+  align-items: center;
   padding: 15px 20px 15px 15px;
   z-index: 11;
+  background-color: transparent;
+  flex-shrink: 0;
+}
+
+#logo{
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
   background-color: transparent;
 }
 
