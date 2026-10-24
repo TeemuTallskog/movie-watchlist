@@ -42,15 +42,17 @@ function App() {
     setTarget(filteredList)
   }
 
-  const shiftMovieIndex = (movieIndex, position) => {
-    if ((movieIndex + position) < 0 || (movieIndex + position) >= movies.length){
+  // `toIndex` is the slot in the current array the movie should land in, so it
+  // is read before the movie is removed: taking it out shifts later slots down.
+  const moveMovie = (fromIndex, toIndex) => {
+    const isOutOfRange = (index, length) => index < 0 || index > length
+    if (fromIndex === toIndex || isOutOfRange(fromIndex, movies.length - 1) || isOutOfRange(toIndex, movies.length)){
       return
     }
 
-    const newArr = [...movies];
-    const temp = movies[movieIndex];
-    newArr[movieIndex] = newArr[(movieIndex + position)]
-    newArr[(movieIndex + position)] = temp
+    const newArr = [...movies]
+    const [movedMovie] = newArr.splice(fromIndex, 1)
+    newArr.splice(fromIndex < toIndex ? toIndex - 1 : toIndex, 0, movedMovie)
 
     setMovies(newArr);
     localStorage.setItem('Movies', JSON.stringify(newArr));
@@ -105,7 +107,7 @@ function App() {
       <MovieSearch setMovies={setMovies}/>
       <div className='watchlist-content'>
         <Collapsible title="Watchlist" open={true} itemCount={movies.length} variant="watchlist">
-          <MovieList movies={movies} deleteMovie={deleteMovie} movieType="Movies" shiftPosition={shiftMovieIndex} markAsWatched={markAsWatched} onImageError={refreshMovieImage}/>
+          <MovieList movies={movies} deleteMovie={deleteMovie} movieType="Movies" reorderable={true} moveMovie={moveMovie} markAsWatched={markAsWatched} onImageError={refreshMovieImage}/>
         </Collapsible>
         <Collapsible title="Watched" open={false} itemCount={watchedMovies.length} variant="watched">
           <MovieList movies={watchedMovies} deleteMovie={deleteMovie} movieType="Watched Movies" onImageError={refreshMovieImage}/>
