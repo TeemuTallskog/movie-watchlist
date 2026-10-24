@@ -16,6 +16,9 @@ function App() {
   const imdbRatings = useImdbRatings(movies, watchedMovies)
   // { movie, mode: 'watch' | 'edit' } while the rating dialog is open.
   const [reviewDialog, setReviewDialog] = useState(null)
+  // Only one of 'search' | 'watchlist' | 'watched' can be open at a time;
+  // opening one collapses the others.
+  const [openSection, setOpenSection] = useState('watchlist')
   // Display-only sort choices; the storage arrays keep their manual order.
   const [watchlistSort, setWatchlistSort] = useState('custom')
   const [watchlistDirection, setWatchlistDirection] = useState('desc')
@@ -35,6 +38,11 @@ function App() {
     watchedMovies.forEach(movie => { if (movie?.id) byId.set(movie.id, { movie, list: 'watched' }) })
     return byId
   }, [movies, watchedMovies]);
+
+  // Toggle one section open; clicking the open section collapses it back
+  // to none, and opening one section collapses the others.
+  const openOne = (section) =>
+    setOpenSection(prev => (prev === section ? null : section))
 
   const deleteMovie = (movie, storage = 'Movies') => {
     let target = null
@@ -183,11 +191,20 @@ function App() {
         deleteMovie={deleteMovie}
         markAsWatched={movie => setReviewDialog({ movie, mode: 'watch' })}
         editReview={movie => setReviewDialog({ movie, mode: 'edit' })}
+        open={openSection === 'search'}
+        onOpenChange={open => open
+          // Opening the search takes over from any open list...
+          ? setOpenSection('search')
+          // ...and closing it must not activate the search section
+          // behind the search bar's own outside-click listener; it only
+          // clears the state when a list wasn't opened instead.
+          : setOpenSection(prev => (prev === 'search' ? null : prev))}
       />
       <div className='watchlist-content'>
         <Collapsible
           title="Watchlist"
-          open={true}
+          open={openSection === 'watchlist'}
+          onToggle={() => openOne('watchlist')}
           itemCount={movies.length}
           variant="watchlist"
           headerExtra={
@@ -204,7 +221,8 @@ function App() {
         </Collapsible>
         <Collapsible
           title="Watched"
-          open={false}
+          open={openSection === 'watched'}
+          onToggle={() => openOne('watched')}
           itemCount={watchedMovies.length}
           variant="watched"
           headerExtra={

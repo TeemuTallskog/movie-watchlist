@@ -4,11 +4,13 @@ import { readStoredMovies } from "../utils/movieStorage";
 import "../resources/css/MovieSearch.css"
 import Logo from "../resources/icons/logo.svg"
 
-const MovieSearch = ({setMovies, localById, deleteMovie, markAsWatched, editReview}) => {
+const MovieSearch = ({setMovies, localById, deleteMovie, markAsWatched, editReview, open, onOpenChange}) => {
     const [search, setSearch ] = useState('')
     const [options, setOptions] = useState([]);
     const textAreaRef = useRef(null)
-    const [isOpen, setIsOpen] = useState(false);
+    // Dropdown visibility lives in App (openSection === 'search') so opening
+    // the search collapses the watchlist/watched sections, and vice versa.
+    const setisOpen = (value) => onOpenChange(Boolean(value))
     const [timeoutId, setTimeoutId] = useState(null)
 
     const apiQuery = async (search) => {
@@ -29,7 +31,7 @@ const MovieSearch = ({setMovies, localById, deleteMovie, markAsWatched, editRevi
     }
 
     const onChange = (e) => {
-        setIsOpen(true)
+        setisOpen(true)
         const newValue = e.target.value;
         setSearch(newValue);
         if (newValue.length === 0) {
@@ -48,19 +50,19 @@ const MovieSearch = ({setMovies, localById, deleteMovie, markAsWatched, editRevi
     useEffect(() => {
         const handleClick = (ev) => {
             if (!textAreaRef.current || !textAreaRef.current.contains(ev.target)) {
-                setIsOpen(false)
+                setisOpen(false)
                 return
             }
             // Only clicks on the search bar itself toggle the dropdown.
             // Clicks inside the results — selecting a row or opening and
             // using a card's menu — must keep the dropdown open.
             if (ev.target.closest('.input-container')) {
-                setIsOpen(prev => !prev)
+                setisOpen(!open)
             }
         }
         window.addEventListener('click', handleClick)
         return () => window.removeEventListener('click', handleClick)
-    }, []);
+    }, [open, onOpenChange]);
 
     const saveMovie = (item) => {
             // A movie already in either list must not be added again; its
@@ -96,7 +98,7 @@ const MovieSearch = ({setMovies, localById, deleteMovie, markAsWatched, editRevi
 
     return (
         <div ref={textAreaRef} className="search-container">
-            <div className={`input-container ${isOpen ? 'focused' : ''}`}>
+            <div className={`input-container ${open ? 'focused' : ''}`}>
             <img src={Logo} alt="logo" id="logo"></img>
             <input 
                 className="search-field"
@@ -108,7 +110,7 @@ const MovieSearch = ({setMovies, localById, deleteMovie, markAsWatched, editRevi
                 placeholder="Search movies to add..."
             />
             </div>
-            <div className={isOpen ? "" : 'hide-dropdown'}>
+            <div className={open ? "" : 'hide-dropdown'}>
                 <MovieList
                     movies={enrichedOptions}
                     containerClass="search-result-container"
