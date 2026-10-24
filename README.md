@@ -4,8 +4,10 @@
 
 Simple extension, that allows bookmarking movies/series from IMDB listings.  
 <p align="center">
-    <img src="README-resources/search.png" alt="search" width="45%">
-    <img src="README-resources/watchlist.png" alt="watchlist" width="45%">
+    <img src="README-resources/watchlist-1.png" alt="watchlist 1" width="24%" style="vertical-align: top">
+    <img src="README-resources/watchlist-2.png" alt="watchlist 2" width="24%" style="vertical-align: top">
+    <img src="README-resources/watchlist-3.png" alt="watchlist 3" width="24%" style="vertical-align: top">
+    <img src="README-resources/watchlist-4.png" alt="watchlist 4" width="24%" style="vertical-align: top">
 </p>
 
 -----
